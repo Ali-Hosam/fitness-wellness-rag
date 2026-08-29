@@ -1,6 +1,8 @@
 ALG Concepts of Fitness Wellness.docx
 fitness_wellness_corpus.txt
 fitness_wellness_corpus_cleaned.txt
+fitness_wellness_chunks.jsonl
+fitness_wellness_embeddings.jsonl
 __pycache__/
 .venv/
 .env

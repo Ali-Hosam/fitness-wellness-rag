@@ -33,6 +33,9 @@ def create_table():
     """Create the vector table that will store each chunk and its embedding."""
     with get_connection() as conn:
         with conn.cursor() as cur:
+            # First, enable the pgvector extension
+            cur.execute("CREATE EXTENSION IF NOT EXISTS vector;")
+            
             cur.execute(
                 """
                 CREATE TABLE IF NOT EXISTS fitness_chunks (

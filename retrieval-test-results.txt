@@ -11,3 +11,108 @@ Found 3 similar chunks for: What are the main dimensions of wellness?
 (5, 'Healthy Behaviors', 'The Nine Dimensions of Wellness', 'fitness_wellness_corpus_cleaned.txt', "Wellness is a familiar term, but what is its true definition? Is it simply the absence of disease? This chapter will define all the components of holistic wellness and describe the factors that contribute to not only a person's physical and mental health, but also their ability to develop, thrive, succeed, enjoy life, and meet challenges head on with confidence and resolve.\n\nTo achieve this type of overall wellness, a person must be healthy in nine interconnected dimensions of wellness: physical, emotional, intellectual, spiritual, social, environmental, occupational, financial, and cultural. A description of each dimension follows.\n\nThe Nine Dimensions of Wellness\n\n•   Physical Wellness\n\nPeople who are physically well actively make healthy decisions on a daily basis. They eat a nutritionally balanced diet; they try to get an adequate amount of sleep, and they\n\nvisit the doctor routinely. They make a habit of exercising three to five times per week; they have the ability to identify their personal needs and are aware of their body's limitations. They maintain positive interpersonal relationships and make healthy sexual decisions that are consistent with their personal values and beliefs.\n\n• Emotional Wellness", 188, 0.7692523002624512)
 -
 (0, 'Healthy Behaviors', None, 'fitness_wellness_corpus_cleaned.txt', 'Healthy Behaviors and Wellness\n\nObjectives:\n\n• Define the nine dimensions of wellness\n\n• Identify health problems in the United States\n\n• Identify the behaviors that promote wellness\n\n• Behavior Modification: how change occurs, barriers to change, and how to successfully overcome barriers and make lasting lifestyle changes\n\nWhy Study Wellness?', 50, 0.7013955890300532)
+
+===============================================================================
+
+results for testing search_similar_chunks with limit =5 from file LLM_retrieval:
+
+QUESTION: What are the main dimensions of wellness
+
+TERMINAL: Found 5 similar chunks for: What are the main dimensions of wellness?
+-
+(4, 'Healthy Behaviors', 'Dimensions of Wellness', 'fitness_wellness_corpus_cleaned.txt', "Wellness is a familiar term, but what is its true definition? Is it simply the absence of disease? This chapter will define all the components of holistic wellness and describe the factors that contribute to not only a person's physical and mental health, but also their ability to develop, thrive, succeed, enjoy life, and meet challenges head on with confidence and resolve.\n\nTo achieve this type of overall wellness, a person must be healthy in nine interconnected dimensions of wellness: physical, emotional, intellectual, spiritual, social, environmental, occupational, financial, and cultural. A description of each dimension follows.", 96, 0.7742829322814941)
+-
+(5, 'Healthy Behaviors', 'The Nine Dimensions of Wellness', 'fitness_wellness_corpus_cleaned.txt', "Wellness is a familiar term, but what is its true definition? Is it simply the absence of disease? This chapter will define all the components of holistic wellness and describe the factors that contribute to not only a person's physical and mental health, but also their ability to develop, thrive, succeed, enjoy life, and meet challenges head on with confidence and resolve.\n\nTo achieve this type of overall wellness, a person must be healthy in nine interconnected dimensions of wellness: physical, emotional, intellectual, spiritual, social, environmental, occupational, financial, and cultural. A description of each dimension follows.\n\nThe Nine Dimensions of Wellness\n\n•   Physical Wellness\n\nPeople who are physically well actively make healthy decisions on a daily basis. They eat a nutritionally balanced diet; they try to get an adequate amount of sleep, and they\n\nvisit the doctor routinely. They make a habit of exercising three to five times per week; they have the ability to identify their personal needs and are aware of their body's limitations. They maintain positive interpersonal relationships and make healthy sexual decisions that are consistent with their personal values and beliefs.\n\n• Emotional Wellness", 188, 0.7692523002624512)
+-
+(0, 'Healthy Behaviors', None, 'fitness_wellness_corpus_cleaned.txt', 'Healthy Behaviors and Wellness\n\nObjectives:\n\n• Define the nine dimensions of wellness\n\n• Identify health problems in the United States\n\n• Identify the behaviors that promote wellness\n\n• Behavior Modification: how change occurs, barriers to change, and how to successfully overcome barriers and make lasting lifestyle changes\n\nWhy Study Wellness?', 50, 0.7013955890300532)
+-
+(11, 'Healthy Behaviors', 'Nine Dimensions of Wellness', 'fitness_wellness_corpus_cleaned.txt', 'Culturally well people are aware of their own cultural background, as well as the diversity and richness present in other cultural backgrounds. Cultural wellness implies understanding, awareness and intrinsic respect for aspects of diversity. A culturally well person acknowledges and accepts the impact of these aspects of diversity on sexual orientation, religion, gender, racial and ethnic backgrounds, age groups, and disabilities.1\n\nFor more information on the nine dimensions of wellness, click on the link below:\n\nNine Dimensions of Wellness\n\nTo watch a video about the nine dimensions of wellness, click on the following link:', 94, 0.6826736927032471)
+-
+(12, 'Healthy Behaviors', 'Video on the Nine Dimensions of Wellness', 'fitness_wellness_corpus_cleaned.txt', 'Culturally well people are aware of their own cultural background, as well as the diversity and richness present in other cultural backgrounds. Cultural wellness implies understanding, awareness and intrinsic respect for aspects of diversity. A culturally well person acknowledges and accepts the impact of these aspects of diversity on sexual orientation, religion, gender, racial and ethnic backgrounds, age groups, and disabilities.1\n\nFor more information on the nine dimensions of wellness, click on the link below:\n\nNine Dimensions of Wellness\n\nTo watch a video about the nine dimensions of wellness, click on the following link:\n\nVideo on the Nine Dimensions of Wellness', 101, 0.6775382353342644)
+1111
+
+===============================================================================
+
+results of asking different questions and trying followup questions :
+
+(venv) PS E:\Side project> & "e:\Side project\venv\Scripts\python.exe" "e:/Side project/LLM_retrieval.py"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights: 100%|███████████████████████████████████████████████| 103/103 [00:00<00:00, 2346.65it/s]
+============================================================
+RAG PIPELINE - MULTI-TURN CONVERSATION TEST
+============================================================
+
+--- TEST 1: DIFFERENT QUESTIONS ---
+
+Q1: What are the main dimensions of wellness?
+A1: To achieve overall wellness, a person must be healthy in nine interconnected dimensions of wellness (Source 1, Source 2). These dimensions are:
+
+1.  **Physical** (Source 1, Source 2)
+2.  **Emotional** (Source 1, Source 2)
+3.  **Intellectual** (Source 1, Source 2)
+4.  **Spiritual** (Source 1, Source 2)
+5.  **Social** (Source 1, Source 2)
+6.  **Environmental** (Source 1, Source 2)
+7.  **Occupational** (Source 1, Source 2)
+8.  **Financial** (Source 1, Source 2)
+9.  **Cultural** (Source 1, Source 2)
+
+Q2: What is physical wellness?
+A2: People who are physically well actively make healthy decisions daily (Source 1). This includes eating a nutritionally balanced diet, getting adequate sleep, and visiting the doctor routinely. They also make a habit of exercising three to five times per week, can identify their personal needs, are aware of their body's limitations, maintain positive interpersonal relationships, and make healthy sexual decisions consistent with their personal values and beliefs (Source 1).
+
+Q3: How does exercise contribute to fitness?
+A3: Exercise is a planned, structured, and repetitive movement pattern specifically intended to improve fitness (Source 1, Source 2, Source 3, Source 4). As a positive side-effect, it also significantly improves health (Source 1, Source 3, Source 4).
+
+Through exercise, fitness improvements include:
+*   The heart's ability to pump blood (Source 1, Source 3, Source 4)
+*   Increased muscle size (Source 1, Source 3, Source 4)
+*   Improved flexibility (Source 1, Source 3, Source 4)
+
+Exercise also promotes healthy functioning of the brain, heart, and the skeletal and muscular systems (Source 2). The development of cardiorespiratory endurance, muscular strength and endurance, flexibility, and body composition—the components of health-related fitness—is also enhanced by exercise (Source 1).
+
+--- TEST 2: MULTI-TURN CONVERSATION ---
+
+Q1: What is emotional wellness?
+A1: Emotional wellness refers to successfully expressing and managing a wide range of feelings, such as anger, doubt, hope, joy, desire, and fear. Individuals who are emotionally well maintain high self-esteem, have a positive body-image, and can regulate their feelings. They also know where to find support for their mental health, including professional counseling services (Source 2, Source 3).
+
+Q2 (follow-up): How can someone develop better emotional wellness?
+A2: To develop better emotional wellness, individuals can benefit from accepting help from those who care about them and will listen, as this strengthens resilience and commitment. If someone feels overwhelmed or unable to meet their goals on their own, considering help from a psychologist is recommended. Psychologists are trained to understand the mind-body connection and factors promoting behavior change, and even a few sessions can assist in examining and setting attainable goals or addressing emotional issues (Source 4).
+
+Q3 (follow-up): What about relationships?
+A3: Relationships play an important role in different aspects of wellness.
+
+Firstly, "positive relationships" are considered a protective factor that can reduce a person's risk of developing drug addiction (Source 1, Source 2, Source 3, Source 5).
+
+Secondly, in the context of social wellness, a socially well person builds "healthy relationships based on interdependence, trust, and respect." Such individuals are aware of the feelings of others and develop a network of friends and co-workers who share a common purpose, providing support and validation (Source 4).
+
+============================================================
+ALL TESTS COMPLETED SUCCESSFULLY
+============================================================
+
+===============================================================================
+
+same test but in interactive CLI:
+
+(venv) PS E:\Side project> & "e:\Side project\venv\Scripts\python.exe" "e:/Side project/LLM_retrieval.py"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights: 100%|████████████████████████████████| 103/103 [00:00<00:00, 2831.56it/s]
+============================================================
+FITNESS & WELLNESS RAG CHATBOT
+============================================================
+Type your questions below. Type 'exit' or 'quit' to end.
+
+You: what is emotional wellness
+
+Assistant: Emotional wellness involves successfully expressing and managing a wide range of feelings, such as anger, doubt, hope, joy, desire, and fear. Individuals who are emotionally well maintain high self-esteem, possess a positive body image, and can regulate their feelings. They also know how to seek support and help for their mental health, including professional counseling services (Source 1, Source 3).
+
+You: what is my last question
+
+Assistant: Your last question was "what is emotional wellness".
+
+You: and does your answer to that question included counseling by any means?
+
+Assistant: Yes, my previous answer regarding emotional wellness does include counseling. It states that individuals who are emotionally well "know how to seek support and help for their mental health, including professional counseling services" (Source 1, Source 3).
+
+You: q
+
+Goodbye!

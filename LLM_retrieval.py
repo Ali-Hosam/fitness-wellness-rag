@@ -90,12 +90,19 @@ def search_similar_chunks(question: str, limit: int = 5):
 #         self.history.append({"role": "user", "content": question})  # store raw question
 #         self.history.append({"role": "model", "content": answer})
 #         return answer
-
+MIN_THRESHOLD = 0.4
 class ConversationSession:
     def __init__(self):
         self.history=[]
     def ask(self, question: str) -> str:
         chunks = search_similar_chunks(question)
+
+        #skipping LLM call in case of low similarity to save requests, tokens and time.
+        if chunks and chunks[0][-1] < MIN_THRESHOLD:
+            answer = "I don't have enough information to answer this question based on the provided context."
+            self.history.append({"role": "user", "content": question})  # store raw
+            self.history.append({"role": "model", "content": answer})
+            return answer
         context = format_chunks_as_context(chunks)
         user_turn = {"role": "user", "content": f"{context}\n\nQuestion: {question}"}
         messages_to_send = self.history + [user_turn]

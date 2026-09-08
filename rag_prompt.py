@@ -65,21 +65,6 @@ Relevance Score: {similarity:.2f}
     # Join all chunks with a separator
     return "\n\n".join(context_parts)
 
-# history=[]
-# system_message = """You are a helpful fitness and wellness expert assistant. 
-# Your role is to answer questions about wellness, fitness, and nutrition based ONLY on the provided knowledge base.
-
-# IMPORTANT RULES:
-# 1. Answer ONLY based on the provided context
-# 2. If the context doesn't contain information to answer the question, say "I don't have enough information to answer this"
-# 3. Be specific and cite which part of the context you're using
-# 4. Keep your answer clear and concise
-# 5. Do not add information from outside sources
-# 6. answer in a formal and friendly tone, suitable for a general audience
-# 7.the user current and previous questions are associated with role user
-# 8.the assistant previous answers are associated with role assistant"""
-# history.append({"role": "system", "content": system_message})
-
 def create_rag_prompt(question: str, chunks: List[RetrievedChunk]) -> str:
     """
     Create a complete prompt that combines:
@@ -103,16 +88,6 @@ def create_rag_prompt(question: str, chunks: List[RetrievedChunk]) -> str:
     # history.append({"role": "user", "content": question})
     context = format_chunks_as_context(chunks)
     
-#     system_message = """You are a helpful fitness and wellness expert assistant. 
-# Your role is to answer questions about wellness, fitness, and nutrition based ONLY on the provided knowledge base.
-
-# IMPORTANT RULES:
-# 1. Answer ONLY based on the provided context
-# 2. If the context doesn't contain information to answer the question, say "I don't have enough information to answer this"
-# 3. Be specific and cite which part of the context you're using
-# 4. Keep your answer clear and concise
-# 5. Do not add information from outside sources
-# 6. answer in a formal and friendly tone, suitable for a general audience"""
     
     # prompt = f"""{system_message}
     prompt = f"""
@@ -163,7 +138,7 @@ def truncate_context_if_needed(context: str, max_tokens: int = 2000) -> str:
 
 if __name__ == "__main__":
     # EXAMPLE USAGE
-    from LLM_retrieval import search_similar_chunks
+    from retrieval import search_similar_chunks
     
     question = "What are the nine dimensions of wellness?"
     chunks = search_similar_chunks(question, limit=5)

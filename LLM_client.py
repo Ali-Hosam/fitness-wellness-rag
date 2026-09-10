@@ -3,6 +3,7 @@ import time
 from dotenv import load_dotenv
 import os
 
+from pgvector_store import new_session, add_messages, get_session_history, search_session
 from retrieval import search_similar_chunks
 from rag_prompt import format_chunks_as_context
 
@@ -28,10 +29,43 @@ IMPORTANT RULES:
 7. use the history of the conversation to provide context for your answers, but do not make up information"""
 
 
-MIN_THRESHOLD = 0.4
+MIN_THRESHOLD = -1
 class ConversationSession:
-    def __init__(self):
-        self.history=[]
+    # def __init__(self):
+    #     try:
+    #         self.session_id=new_session()
+    #     except Exception as e:
+    #         print(f"Error creating new session: {e}")
+    #         print
+    #         self.session_id = None
+    #     self.history=[]
+    #constructor given a session_id, load the history from the database
+    def __init__(self, session_id: str=None):
+        if session_id is None:
+            try:
+                self.session_id = new_session()
+            except Exception as e:
+                print(f"Error creating new session: {e}")
+                self.session_id = None
+            self.history = []
+        else :
+            
+            if search_session(session_id) is False:
+                print(f"Session ID {session_id} not found in database. Starting a new session.")
+                try:
+                    self.session_id = new_session()
+                except Exception as e:
+                    print(f"Error creating new session: {e}")
+                    self.session_id = None
+                self.history = []
+            else:
+                self.session_id = session_id
+                try:
+                    self.history = get_session_history(session_id)
+                    print(f"Loaded history for session {session_id}: {self.history}")
+                except Exception as e:                
+                    print(f"Error loading session history: {e}")
+                    self.history = []
     def ask(self, question: str) -> tuple[str, list, float, float]:
         retrieval_start = time.time()
         chunks = search_similar_chunks(question)
@@ -40,6 +74,15 @@ class ConversationSession:
         #skipping LLM call in case of low similarity to save requests, tokens and time.
         if chunks and chunks[0][-1] < MIN_THRESHOLD:
             answer = "I don't have enough information to answer this question based on the provided context."
+
+            if self.session_id is not None:
+                try:
+                    messages=[{"role": "user", "content": question}, {"role": "model", "content": answer}]
+                    add_messages(self.session_id, messages)
+                except Exception as e:
+                    print(f"Error adding messages: {e}")
+            else:
+                print("messages not added to the database")
             self.history.append({"role": "user", "content": question})  # store raw
             self.history.append({"role": "model", "content": answer})
             generation_time = time.time() - generation_start
@@ -48,6 +91,14 @@ class ConversationSession:
         user_turn = {"role": "user", "content": f"{context}\n\nQuestion: {question}"}
         messages_to_send = self.history + [user_turn]
         answer = call_llm(messages_to_send)
+        if self.session_id is not None:
+            try:
+                messages=[{"role": "user", "content": question}, {"role": "model", "content": answer}]
+                add_messages(self.session_id, messages)
+            except Exception as e:
+                print(f"Error adding messages to database: {e}")
+        else:
+            print("messages not added to the database")
         self.history.append({"role": "user", "content": question})  # store raw question
         self.history.append({"role": "model", "content": answer})
         generation_time = time.time() - generation_start
@@ -129,7 +180,8 @@ def call_llm(history: list[dict]) -> str:
                     url=OPENROUTER_API_URL,
                     headers=OPENROUTER_HEADERS,
                     #making the requests handle the json.dumps here to convert the python dictionary to a json string, so that it can be sent in the post request
-                    json=OPENROUTER_PAYLOAD
+                    json=OPENROUTER_PAYLOAD,
+                    timeout=30
                 )
         
             # status = response2.status_code #get the status of the response, if it is not 200, raise an error
@@ -148,7 +200,8 @@ def call_llm(history: list[dict]) -> str:
                     response2 = requests.post(
                         url=OPENROUTER_API_URL,
                         headers=OPENROUTER_HEADERS,
-                        json=OPENROUTER_PAYLOAD
+                        json=OPENROUTER_PAYLOAD,
+                        timeout=30
                     )
                     response2.raise_for_status()
                 except requests.exceptions.RequestException as e3:

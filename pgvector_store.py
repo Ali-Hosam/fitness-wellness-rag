@@ -49,6 +49,29 @@ def create_table():
                 );
                 """
             )
+
+            cur.execute(
+                """
+                CREATE TABLE IF NOT EXISTS sessions (
+                    session_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+                    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+                );
+                """
+            )
+
+            cur.execute(
+                """
+                CREATE TABLE IF NOT EXISTS messages (
+                    message_id BIGSERIAL PRIMARY KEY,
+                    session_id UUID NOT NULL REFERENCES sessions(session_id) ON DELETE CASCADE,
+                    role TEXT NOT NULL,
+                    content TEXT NOT NULL,
+                    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+                );
+                """
+            )
+            
             conn.commit()
 
 def create_indexes():
@@ -62,10 +85,55 @@ def get_table_stats():
     """Return the number of chunks in the database."""
     with get_connection() as conn:
         with conn.cursor() as cur:
-            cur.execute("SELECT COUNT(*) FROM fitness_chunks;")
+            cur.execute(
+                """SELECT COUNT(*) FROM sessions;""")
             count = cur.fetchone()[0]
     return count
-
+def new_session():
+    """Add a new session to the sessions table and return its ID."""
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("INSERT INTO sessions DEFAULT VALUES RETURNING session_id;")
+            session_id = cur.fetchone()[0]
+            conn.commit()
+    return session_id
+def search_session(session_id):
+    """Check if a session exists in the sessions table."""
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute("SELECT EXISTS(SELECT 1 FROM sessions WHERE session_id = %s);", (session_id,))
+                exists = cur.fetchone()[0]
+        return exists
+    except Exception as e:
+        print(f"Error searching session: {e}")
+        return False
+def add_messages(session_id, messages):
+    """Add a new message to the messages table for a given session."""
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            for message in messages:
+                role = message["role"]
+                content = message["content"]
+                cur.execute(
+                    "INSERT INTO messages (session_id, role, content) VALUES (%s, %s, %s);",
+                    (session_id, role, content),
+                )
+            cur.execute(
+                "UPDATE sessions SET updated_at = now() WHERE session_id = %s;",
+                (session_id,),
+            )
+            conn.commit()
+def get_session_history(session_id: str) -> list[dict]:
+    """Retrieve the conversation history for a given session."""
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                "SELECT role, content, created_at FROM messages WHERE session_id = %s ORDER BY created_at, message_id;",
+                (session_id,),
+            )
+            rows = cur.fetchall()
+    return [{"role": row[0], "content": row[1]} for row in rows]
 #jsonl_path can be string or path object, it will be converted to Path object if it is string
 def insert_embeddings_from_jsonl(jsonl_path: str | Path):
     """Read all chunk records, convert the saved embedding list to a vector, and insert them."""
@@ -155,9 +223,9 @@ def insert_embeddings_from_jsonl(jsonl_path: str | Path):
 if __name__ == "__main__":
     # This is the actual setup we want for the database stage.
     try:
-        create_table()
-        insert_embeddings_from_jsonl(EMBEDDINGS_FILE)
-        create_indexes()
+        # create_table()
+        # insert_embeddings_from_jsonl(EMBEDDINGS_FILE)
+        # create_indexes()
 
         print(get_table_stats())
     except Exception as e:

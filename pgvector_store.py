@@ -108,6 +108,13 @@ def search_session(session_id):
     except Exception as e:
         print(f"Error searching session: {e}")
         return False
+def get_sessions():
+    """Retrieve all session IDs from the sessions table."""
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT session_id FROM sessions;")
+            sessions = [rows[0] for rows in cur.fetchall()]
+    return sessions
 def add_messages(session_id, messages):
     """Add a new message to the messages table for a given session."""
     with get_connection() as conn:

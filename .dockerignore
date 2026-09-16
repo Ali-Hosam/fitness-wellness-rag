@@ -1,0 +1,8 @@
+venv/
+__pycache__/
+*.pyc
+.env
+.git/
+fitness_wellness_chunks.jsonl
+fitness_wellness_embeddings.jsonl
+*.docx

@@ -13,6 +13,17 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-
+  api:
+    build: .
+    container_name: project_api
+    environment:
+      DB_HOST: postgres_db
+      DB_PASSWORD: ${DB_PASSWORD}
+      GEMINI_API: ${GEMINI_API}
+      OPEN_ROUTER_API: ${OPEN_ROUTER_API}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres_db
 volumes:
   pgdata:

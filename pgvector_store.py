@@ -10,7 +10,8 @@ import os
 # In plain English: it puts the meaning-numbers into a database so we can ask, "find the chunks that match this question?"
 
 load_dotenv()  # Load environment variables from .env file
-DB_HOST = "localhost"
+# DB_HOST = "localhost"
+DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = 5432
 DB_NAME = "myproject_db"
 DB_USER = "myuser"

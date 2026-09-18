@@ -20,11 +20,18 @@ POST /api/sessions/{session_id}/messages
         "retrieval_time": 0.0,
         "generation_time": 0.0
     }
-    
+
+GET /api/sessions/
+    retrieve all sessions with their messages
+    returns { "sessions" : [ { "session_id" : "...", "messages" : [ { "role" : "user|model", "content" : "..." }, ... ] }, ... ] }
+
+GET /api/session_ids
+    retrieve all session IDs and their first messages
+    returns { "session_ids" : [ "...", ... ], "first_messages" : [ "...", ... ] }
 """
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pgvector_store import get_session_history, get_sessions, new_session
+from pgvector_store import get_session_history, get_sessions, get_sessionsIds_FirstMessages, new_session
 from pydantic import BaseModel
 from LLM_client import ConversationSession
 
@@ -84,7 +91,7 @@ async def get_session(session_id: str):
 
 @app.get("/api/sessions/")
 async def list_sessions():
-    """get session IDs for all sessions."""
+    """get all sessions."""
     try:
         session_IDs = get_sessions()
     except Exception as e:
@@ -102,10 +109,10 @@ async def list_sessions():
 
 @app.get("/api/session_ids")
 async def get_session_ids():
-    """Retrieve all session IDs."""
+    """Retrieve all session IDs and their first messages."""
     try:
-        session_IDs = get_sessions()
-        return {"session_ids": session_IDs}
+        sessions = get_sessionsIds_FirstMessages()
+        return {"sessions": sessions}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

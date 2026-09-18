@@ -116,6 +116,32 @@ def get_sessions():
             cur.execute("SELECT session_id FROM sessions;")
             sessions = [rows[0] for rows in cur.fetchall()]
     return sessions
+
+def get_sessionsIds_FirstMessages():
+    """Retrieve all session IDs from the sessions table and the first message for each session if there is no message in the session don't return it."""
+    try:
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT session_id,
+                        (SELECT content FROM messages
+                        WHERE messages.session_id = sessions.session_id
+                        ORDER BY created_at LIMIT 1) AS first_message
+                FROM sessions
+                WHERE EXISTS (
+                    SELECT 1 FROM messages WHERE messages.session_id = sessions.session_id
+                );
+                """
+            )
+                rows = cur.fetchall()
+                print("fetched successfully")
+        return [{"session_id": row[0], "first_message": row[1]}for row in rows]
+    except Exception as e:
+        print(f"Error retrieving session IDs and first messages: {e}")
+        return []
+
+
 def add_messages(session_id, messages):
     """Add a new message to the messages table for a given session."""
     with get_connection() as conn:

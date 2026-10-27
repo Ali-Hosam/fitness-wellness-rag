@@ -43,19 +43,6 @@ def embed_chunk(model: SentenceTransformer, chunk: Chunk):
     assert len(vector) == 384, f"Expected vector length of 384, got {len(vector)}"
     return vector
 
-#embedding test chunk from the chuunks file
-# def embed_chunk_from_file(model: SentenceTransformer, chunk_id: int):
-#     """Load a chunk from the JSONL file and embed it."""
-#     import json
-#     #the "r" is for read mode "w" is for write mode and "a" is for append mode
-#     with open(CHUNKS_PATH, "r", encoding="utf-8") as f:
-#         for line in f:
-#             chunk_data = json.loads(line)
-#             if chunk_data["chunk_id"] == chunk_id:
-#                 #the ** operator unpacks the dictionary into keyword arguments for the Chunk constructor
-#                 chunk = Chunk(**chunk_data)
-#                 return embed_chunk(model, chunk)
-#     raise ValueError(f"Chunk with ID {chunk_id} not found in {CHUNKS_PATH}")
 
 #embedding all chunks and saving in another file alongside all metadata
 def embed_all_chunks(model: SentenceTransformer):
@@ -82,17 +69,6 @@ if __name__ == "__main__":
     # test_vector = embed_text(embedding_model, "one test sentence")
     # print(len(test_vector))
 
-    # chunk = Chunk(
-    #     chunk_id=2,
-    #     chapter="Healthy Behaviors",
-    #     section="Dimensions of Wellness",
-    #     text="As most college students do, you have probably set goals...",
-    #     word_count=163
-    # )
-
-    # test_vector = embed_test_chunk(embedding_model, chunk)
-    # embedded_chunk_vector = embed_chunk_from_file(embedding_model, 2)
-    # print(f"Embedded chunk vector length: {len(embedded_chunk_vector)}")
 
     #embedding all chunks and saving them to a new file
     embed_all_chunks(embedding_model)

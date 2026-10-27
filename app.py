@@ -39,5 +39,5 @@ def run_cli(session_id: str | None = None):
 if __name__ == "__main__":
     session_id ="9106e467-3e47-4478-a866-6dbd9b43e7fb"
     # session_id = "a7a"
-    run_cli(session_id)
-    # run_cli(1)  # Example with a specific session_id, replace with actual ID if needed
+    # run_cli(session_id)
+    run_cli()  
